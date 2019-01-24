@@ -23,13 +23,25 @@ class KnowledgeBase(object):
         Args:
             fact (Fact or Rule): Fact or Rule we're asserting in the format produced by read.py
         """
-        if fact.name == 'fact':
-            self.facts.append(fact);
-
         # print(fact.name)
         # print(fact.statement)
-        # print(fact.asserted)
+        # print(fact.asserted)        
 
+        if fact.name == 'fact':
+            if self.facts == []:
+                self.facts.append(fact)
+            else:
+                judge = True
+                state1 = fact.statement
+                for index in self.facts:
+                    state2 = index.statement
+                    match_result = match(state1, state2)
+                    if match_result != False:
+                        judge = False
+                        break
+                if judge:
+                    self.facts.append(fact)
+              
         # print("Asserting {!r}".format(fact))
         # print(self.facts)
         # print(1)
